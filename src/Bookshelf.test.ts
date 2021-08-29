@@ -5,27 +5,27 @@ describe('Bookshelf', () => {
   const theLordOfTheRings: Book = {
     title: 'The Lord of the Rings',
     author: 'J. R. R. Tolkien',
-    date: '1954-02-15',
+    date: new Date('1954-02-15'),
   };
   const theHobbit: Book = {
     title: 'The Hobbit',
     author: 'J. R. R. Tolkien',
-    date: '1937-09-21',
+    date: new Date('1937-09-21'),
   };
   const hamlet: Book = {
     title: 'Hamlet',
     author: 'William Shakespeare',
-    date: '1600',
+    date: new Date('1600'),
   };
   const candide: Book = {
     title: 'Candide',
     author: 'Voltaire',
-    date: '1759',
+    date: new Date('1759'),
   };
   const aLaRechercheDuTempsPerdu = {
     title: 'À la recherche du temps perdu',
     author: 'Marcel Proust',
-    date: '1927',
+    date: new Date('1927'),
   };
 
   let bookshelf: Bookshelf;
@@ -79,5 +79,29 @@ describe('Bookshelf', () => {
 
     bookshelf.addBook(aLaRechercheDuTempsPerdu);
     expect(bookshelf.getTotalNumberOfBooks()).toEqual(1);
+  });
+
+  describe('getBooksPublishedBefore', () => {
+    it('should return all books published before a specific string time', () => {
+      bookshelf.addBook(hamlet);
+      bookshelf.addBook(candide);
+      bookshelf.addBook(theLordOfTheRings);
+
+      let books = bookshelf.getBooksPublishedBefore('1700');
+
+      expect(books.length).toEqual(1);
+      expect(books).toEqual(expect.arrayContaining([hamlet]));
+    });
+
+    it('should return all books published before a specific date time', () => {
+      bookshelf.addBook(hamlet);
+      bookshelf.addBook(candide);
+      bookshelf.addBook(theLordOfTheRings);
+
+      let books = bookshelf.getBooksPublishedBefore(new Date('1700'));
+
+      expect(books.length).toEqual(1);
+      expect(books).toEqual(expect.arrayContaining([hamlet]));
+    });
   });
 });

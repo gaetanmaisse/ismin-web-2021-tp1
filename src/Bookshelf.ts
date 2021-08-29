@@ -32,4 +32,12 @@ export class Bookshelf {
   getTotalNumberOfBooks(): number {
     return this.bookStorage.size;
   }
+
+  getBooksPublishedBefore(aDate: string | Date): Book[] {
+    const dateCriterion = typeof aDate === 'string' ? new Date(aDate) : aDate;
+
+    return this.getAllBooks().filter(
+      (book) => book.date.getTime() <= dateCriterion.getTime(),
+    );
+  }
 }
